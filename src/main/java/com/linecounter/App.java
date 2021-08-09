@@ -31,14 +31,19 @@ class App {
     boolean showSize = false;
 
     private int totalLines;
+    private int totalFileCount;
+    private int totalSize;
     private String rootDirectoryPath;
     private ArrayList<File> files;
     private HashMap<String, ArrayList<Integer>> fileTypeMap;
+    
 
     public App() {
         this.rootDirectoryPath = null;
         this.files = new ArrayList<>();
         this.totalLines = 0;
+        this.totalFileCount = 0;
+        this.totalSize = 0;
         this.fileTypeMap = new HashMap<>();
     }
 
@@ -66,6 +71,8 @@ class App {
                     values.add(this.fileTypeMap.get(ending).get(1) + currentFileLines);
                     values.add(this.fileTypeMap.get(ending).get(2) + (int)file.length());
                     this.fileTypeMap.put(ending, values);
+                    this.totalFileCount++;
+                    this.totalSize += (int)file.length();
                 } else {
                     // ending is not already in hashmap
                     // insert it with the default values
@@ -74,6 +81,8 @@ class App {
                     values.add(currentFileLines);
                     values.add((int)file.length());
                     this.fileTypeMap.put(ending, values);
+                    this.totalFileCount++;
+                    this.totalSize += (int)file.length();
                 }
                 this.totalLines += currentFileLines;
                 continue;
@@ -92,12 +101,18 @@ class App {
                         values.add(this.fileTypeMap.get(ending).get(1) + currentFileLines);
                         values.add(this.fileTypeMap.get(ending).get(2) + (int)file.length());
                         this.fileTypeMap.put(ending, values);
+                        this.totalLines += currentFileLines;
+                        this.totalFileCount++;
+                        this.totalSize += (int)file.length();
                     } else {
                         ArrayList<Integer> values = new ArrayList<>();
                         values.add(1);
                         values.add(currentFileLines);
                         values.add((int)file.length());
                         this.fileTypeMap.put(ending, values);
+                        this.totalLines += currentFileLines;
+                        this.totalFileCount++;
+                        this.totalSize += (int)file.length();
                     }
                 }
             }
@@ -119,7 +134,18 @@ class App {
             if ( this.showSize) {
                 output += "\nSize in bytes: " + values.get(2);
             }
+
             System.out.println(output + "\n");
+        }
+
+        System.out.println("\n\nTotal Files: " + this.totalFileCount);
+
+        if (this.showLineCount) {
+            System.out.println("Total Line Count: " + this.totalLines);
+        }
+
+        if (this.showSize) {
+            System.out.println("Total Size: " + this.totalSize + " bytes");
         }
     }
 
@@ -157,9 +183,9 @@ class App {
             .parse(args);
         
         if (app.path == null) {
-            System.out.println("No path provided. Searching current directory.");
+            System.out.println("No path provided. Searching current directory.\n");
             try {
-                Thread.sleep(0);
+                Thread.sleep(800);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
