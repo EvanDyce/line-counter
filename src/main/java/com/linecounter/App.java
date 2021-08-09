@@ -145,7 +145,7 @@ class App {
         }
 
         if (this.showSize) {
-            System.out.println("Total Size: " + this.totalSize + " bytes");
+            System.out.println("Total Size: " + this.sizeFormatter(this.totalSize));
         }
     }
 
@@ -171,6 +171,21 @@ class App {
         return lines;
     }
 
+    private String sizeFormatter(int bytes) {
+        double size_kb = bytes/1024;
+        double size_mb = size_kb/1024;
+        double size_gb = size_mb/1024;
+
+        if (size_gb > 1) {
+            return Math.round(size_gb) + " gigabytes";
+        } else if (size_mb > 1) {
+            return Math.round(size_mb) + " megabytes";
+        } else if (size_kb > 1) {
+            return Math.round(size_kb) + " kilabytes";
+        } else {
+            return bytes + " bytes";
+        }
+    }
    
 
     public static void main(String[] args) throws IOException {
