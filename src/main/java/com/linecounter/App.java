@@ -131,8 +131,8 @@ class App {
                 output += "\nNumber of Lines: " + values.get(1);
             }
 
-            if ( this.showSize) {
-                output += "\nSize in bytes: " + values.get(2);
+            if (this.showSize) {
+                output += "\nSize: " + values.get(2) + " bytes";
             }
 
             System.out.println(output + "\n");
@@ -147,6 +147,7 @@ class App {
         if (this.showSize) {
             System.out.println("Total Size: " + this.sizeFormatter(this.totalSize));
         }
+        System.out.println();
     }
 
     private void populateFiles(File file) {
