@@ -13,9 +13,12 @@ import java.util.Scanner;
 import java.nio.file.Paths;
 import java.lang.Thread.*;
 import java.lang.reflect.Array;
+import java.math.BigInteger;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+
+import org.apache.commons.io.FileUtils;
 
 
 class App {
@@ -132,7 +135,7 @@ class App {
             }
 
             if (this.showSize) {
-                output += "\nSize: " + values.get(2) + " bytes";
+                output += "\nSize: " + this.sizeFormatter(BigInteger.valueOf(values.get(2)));
             }
 
             System.out.println(output + "\n");
@@ -145,7 +148,7 @@ class App {
         }
 
         if (this.showSize) {
-            System.out.println("Total Size: " + this.sizeFormatter(this.totalSize));
+            System.out.println("Total Size: " + this.sizeFormatter(BigInteger.valueOf(this.totalSize)));
         }
         System.out.println();
     }
@@ -172,20 +175,8 @@ class App {
         return lines;
     }
 
-    private String sizeFormatter(int bytes) {
-        double size_kb = bytes/1024;
-        double size_mb = size_kb/1024;
-        double size_gb = size_mb/1024;
-
-        if (size_gb > 1) {
-            return Math.round(size_gb) + " gigabytes";
-        } else if (size_mb > 1) {
-            return Math.round(size_mb) + " megabytes";
-        } else if (size_kb > 1) {
-            return Math.round(size_kb) + " kilabytes";
-        } else {
-            return bytes + " bytes";
-        }
+    private String sizeFormatter(BigInteger bytes) {
+        return FileUtils.byteCountToDisplaySize(bytes);
     }
    
 
